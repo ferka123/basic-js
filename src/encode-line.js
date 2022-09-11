@@ -11,8 +11,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function encodeLine(str) {
-  if (str==="") return str;
-  return str.match(/(.)\1*/g).map(s=>s.length===1 ? s : s.length+s[0]).join("");
+  return (str.match(/(.)\1*/g) ?? []).map(s=>s.length===1 ? s : s.length+s[0]).join("");
 }
 
 module.exports = {

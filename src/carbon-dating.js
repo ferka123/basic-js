@@ -23,7 +23,7 @@ function dateSample(sampleActivity) {
   sampleActivity = parseFloat(sampleActivity)
   if (isNaN(sampleActivity))
     return false;
-  if (sampleActivity<=0||sampleActivity>15)
+  if (sampleActivity<=0||sampleActivity>MODERN_ACTIVITY)
     return false;
   return Math.ceil(Math.log(MODERN_ACTIVITY/sampleActivity)/(0.693/HALF_LIFE_PERIOD))
 }
