@@ -14,16 +14,12 @@ const chainMaker = {
     return this;
   },
   removeLink(position) {
-    if (
-      !Number.isInteger(position) ||
-      position < 1 ||
-      position > this.getLength()
-    ) {
-      this.chain = []
-      throw Error("You can't remove incorrect link!");
+    if (position - 1 in this.chain) {
+      this.chain.splice(position - 1, 1);
+      return this;
     }
-    this.chain.splice(position - 1, 1);
-    return this;
+    this.chain = [];
+    throw Error("You can't remove incorrect link!");
   },
   reverseChain() {
     this.chain.reverse();
@@ -39,18 +35,3 @@ const chainMaker = {
 module.exports = {
   chainMaker,
 };
-
-console.log(
-  chainMaker
-    .addLink("GHI")
-    .addLink(null)
-    .reverseChain()
-    .addLink(333)
-    .reverseChain()
-    .reverseChain()
-    .addLink(0)
-    .reverseChain()
-    .reverseChain()
-    .addLink("GHI")
-    .finishChain()
-);
