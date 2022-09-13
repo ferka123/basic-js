@@ -23,39 +23,27 @@ class VigenereCipheringMachine {
   constructor(mode = true) {
     this.mode = mode;
   }
-  encrypt(msg, key) {
+  encDec(op,msg,key) {
     if (!msg || !key) throw new Error("Incorrect arguments!");
     key = key.toUpperCase();
-    let totalEnc = 0;
-    const encArray = [...msg.toUpperCase()].map(c => {
+    let totalEncDec = 0;
+    const encDecArray = [...msg.toUpperCase()].map(c => {
       if (/[A-Z]/.test(c)) { 
-        let encChar =
-          c.charCodeAt(0) + key.charCodeAt(totalEnc % key.length) - 65;
-        if (encChar > 90) encChar -= 26;
-        totalEnc++;
-        return String.fromCharCode(encChar);
+        let encDecChar =
+          (c.charCodeAt(0) - op*key.charCodeAt(totalEncDec % key.length)+op*130) % 26;
+        totalEncDec++;
+        return String.fromCharCode(encDecChar+65);
       }
       return c;
     });
-    if (this.mode) return encArray.join("")
-    else return encArray.reverse().join("");
+    if (this.mode) return encDecArray.join("")
+    else return encDecArray.reverse().join("");
+  }
+  encrypt(msg,key) {
+    return this.encDec(-1,msg,key)
   }
   decrypt(msg, key) {
-    if (!msg || !key) throw new Error("Incorrect arguments!");
-    key = key.toUpperCase();
-    let totalDec = 0;
-    const decArray = [...msg.toUpperCase()].map(c => {
-      if (/[A-Z]/.test(c)) { 
-        let decChar =
-          c.charCodeAt(0) - key.charCodeAt(totalDec % key.length) + 65;
-        if (decChar < 65) decChar += 26;
-        totalDec++;
-        return String.fromCharCode(decChar);
-      }
-      return c;
-    });
-    if (this.mode) return decArray.join("")
-    else return decArray.reverse().join("");
+    return this.encDec(1,msg,key)
   }
 }
 
